@@ -1,4 +1,5 @@
 from xml.dom import ValidationErr
+from account.utils import Util
 from rest_framework import serializers
 from account.models import User
 from django.utils.encoding import smart_str,force_bytes,DjangoUnicodeDecodeError
@@ -72,6 +73,14 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
             link='http://localhost:3000/api/user/reset/'+uid+'/'+token
             print('Password Reset Link',link)
             #Send Email
+            body='Click Following Link to Reset Your Password'+ link
+            data={
+                'subject':'Reset Your Password',
+                'body':body,
+                'to_email':user.email
+                
+            }
+            Util.send_email(data)
             return attrs
         
 
